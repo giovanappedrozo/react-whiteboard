@@ -10,6 +10,7 @@ export function Default({
   targetPosition,
   markerEnd,
   data,
+  selected,
 }: EdgeProps) {
   const [edgePath] = getSmoothStepPath({
     sourceX,
@@ -23,7 +24,9 @@ export function Default({
       <path
         id={id}
         style={style}
-        className="react-flow__edge-path stroke-2 stroke-zinc-300"
+        className={`react-flow__edge-path stroke-2 stroke-zinc-300 ${
+          selected ? "stroke-zinc-500" : ""
+        }`}
         d={edgePath}
         markerEnd={markerEnd}
       />

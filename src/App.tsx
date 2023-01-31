@@ -10,43 +10,17 @@ import ReactFlow, {
 } from "reactflow";
 import { zinc } from "tailwindcss/colors";
 import "reactflow/dist/style.css";
-import { Square } from "./components/nodes/Square";
-import { useCallback } from "react";
-import { Default } from "./components/edges/Default";
+import { useCallback, useState } from "react";
 import * as Toolbar from "@radix-ui/react-toolbar";
-
-const NODE_TYPES = {
-  square: Square,
-};
-
-const EDGE_TYPES = {
-  default: Default,
-};
-
-const INITIAL_NODES = [
-  {
-    id: crypto.randomUUID(),
-    type: "square",
-    position: {
-      x: 200,
-      y: 400,
-    },
-    data: {},
-  },
-  {
-    id: crypto.randomUUID(),
-    type: "square",
-    position: {
-      x: 800,
-      y: 400,
-    },
-    data: {},
-  },
-] satisfies Node[];
+import { NODE_TYPES } from "./types/nodes";
+import { EDGE_TYPES } from "./types/edges";
+import { BiTrash } from "react-icons/bi";
 
 function App() {
   const [edges, setEdges, onEdgesChanges] = useEdgesState([]);
-  const [nodes, setNodes, onNodesChanges] = useNodesState(INITIAL_NODES);
+  const [nodes, setNodes, onNodesChanges] = useNodesState([] satisfies Node[]);
+
+  const [dragMode, setDragMode] = useState(false);
 
   const onConnect = useCallback(
     (connection: Connection) => {
@@ -82,6 +56,7 @@ function App() {
         onConnect={onConnect}
         onNodesChange={onNodesChanges}
         defaultEdgeOptions={{ type: "default" }}
+        deleteKeyCode={["Delete", "Backspace"]}
       >
         <Background gap={12} size={2} color={zinc[200]} />
         <Controls />
