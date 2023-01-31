@@ -10,17 +10,15 @@ import ReactFlow, {
 } from "reactflow";
 import { zinc } from "tailwindcss/colors";
 import "reactflow/dist/style.css";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import * as Toolbar from "@radix-ui/react-toolbar";
 import { NODE_TYPES } from "./types/nodes";
 import { EDGE_TYPES } from "./types/edges";
-import { BiTrash } from "react-icons/bi";
+import { nodes as mockedNodes } from "./mock/nodes";
 
 function App() {
   const [edges, setEdges, onEdgesChanges] = useEdgesState([]);
   const [nodes, setNodes, onNodesChanges] = useNodesState([] satisfies Node[]);
-
-  const [dragMode, setDragMode] = useState(false);
 
   const onConnect = useCallback(
     (connection: Connection) => {
@@ -29,12 +27,12 @@ function App() {
     [setEdges]
   );
 
-  function addSquareNode() {
+  function addNode(type: string) {
     setNodes((nodes) => [
       ...nodes,
       {
         id: crypto.randomUUID(),
-        type: "square",
+        type: type,
         position: {
           x: 600,
           y: 200,
@@ -62,10 +60,14 @@ function App() {
         <Controls />
       </ReactFlow>
       <Toolbar.Root className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-lg border border-zinc-300 px-8 h-20 w-96 overflow-hidden">
-        <Toolbar.Button
-          className="w-32 h-32 bg-violet-500 rounded transition-transform mt-6 hover:-translate-y-4"
-          onClick={addSquareNode}
-        />
+        {mockedNodes.map((node) => (
+          <Toolbar.Button
+            className={`${node.className} transition-transform mt-6 hover:-translate-y-4`}
+            onClick={() => addNode(node.id)}
+            key={node.id}
+            title={node.name}
+          />
+        ))}
       </Toolbar.Root>
     </div>
   );

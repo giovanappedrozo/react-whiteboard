@@ -4,9 +4,9 @@ import { NodeResizer } from "@reactflow/node-resizer";
 import "@reactflow/node-resizer/dist/style.css";
 import { handles } from "../../mock/handles";
 
-export function Square({ selected }: NodeProps) {
+export function Circle({ selected }: NodeProps) {
   return (
-    <div className="bg-violet-500 rounded w-full h-full min-w-[200px] min-h-[200px]">
+    <div className="bg-red-500 rounded-full w-full h-full min-w-[200px] min-h-[200px]">
       <NodeResizer
         minWidth={200}
         minHeight={200}
